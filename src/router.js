@@ -1,25 +1,37 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
+import Home from './views/Home';
 
-Vue.use(Router)
+//  小说开始
+import NovelIndex from './views/novel/Index';
+import NovelClassify from './views/novel/Classify';
+import NovelClassifyIndex from './views/novel/ClassifyIndex';
+import NovelClassifyList from './views/novel/ClassifyList';
+import NovelSearchResult from './views/novel/SearchResult';
+import NovelMenu from './views/novel/NovelMenu';
+import NovelDetail from './views/novel/Detail';
+//  小说结束
 
-export default new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes: [
+//  登录
+import Login from './views/Login';
+
+export default [
+    { path: '/', component: Home },
     {
-      path: '/',
-      name: 'home',
-      component: Home
+        path: '/novel',
+        component: NovelIndex,
+        children: [
+            {
+                path: '',
+                component: NovelClassify,
+                children: [
+                    { path: '', component: NovelClassifyIndex },
+                    { path: 'classifylist', component: NovelClassifyList }
+                ],
+            },
+            { path: 'searchresult', component: NovelSearchResult }
+        ]
     },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    }
-  ]
-})
+    { path: '/novel/menu', component: NovelMenu },
+    { path: '/novel/detail', component: NovelDetail },
+    { path: '/login', component: Login },
+
+]
