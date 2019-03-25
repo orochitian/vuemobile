@@ -49,8 +49,7 @@
             },
             loadPage() {
                 $loading.show('加载中...');
-                var link = this.$route.query.link;
-                axios.get('/worm/getNovelDetail', {params: {link}}).then(res => {
+                axios.get('/worm/getNovelDetail', {params: this.$route.query}).then(res => {
                     this.pageInfo = res.data;
                     $loading.hide();
                     Vonic.app.pageContentScrollTop(0);
@@ -58,7 +57,12 @@
             },
             changePage(link) {
                 if( !link ) {
-                    this.$router.push(this.$route.query.from);
+                    this.$router.push({
+                        path: '/novel/menu',
+                        query: {
+                            id: this.$route.query.id
+                        }
+                    });
                     return;
                 }
                 if( link.indexOf('readend.html') !== -1 ) {
@@ -76,6 +80,7 @@
             }
         },
         mounted() {
+            console.log(this.$route.query);
             this.loadPage();
         }
     }

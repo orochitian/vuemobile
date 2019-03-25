@@ -4,7 +4,7 @@
             <von-header theme="assertive" style="position: fixed; z-index: 9999;">
                 <button class="button button-icon ion-home" slot="left" @click="$router.push('/')"></button>
                 <span slot="title">小说</span>
-                <button class="button button-icon" slot="right">历史记录</button>
+                <button class="button button-icon" slot="right" @click="$router.push('/novel/history')">历史记录</button>
             </von-header>
 
             <search v-model.trim="title" placeholder="小说名/作者" :on-search="onSearch" :on-cancel="onCancel" cancelText="取消"></search>

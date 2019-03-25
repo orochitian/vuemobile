@@ -8,6 +8,7 @@ import NovelClassifyList from './views/novel/ClassifyList';
 import NovelSearchResult from './views/novel/SearchResult';
 import NovelMenu from './views/novel/NovelMenu';
 import NovelDetail from './views/novel/Detail';
+import NovelHistory from './views/novel/NovelHistory';
 //  小说结束
 
 //  登录
@@ -32,6 +33,7 @@ export default [
     },
     { path: '/novel/menu', component: NovelMenu },
     { path: '/novel/detail', component: NovelDetail },
+    { path: '/novel/history', component: NovelHistory },
     { path: '/login', component: Login },
 
 ]

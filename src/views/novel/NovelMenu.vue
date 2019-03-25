@@ -19,7 +19,16 @@
                             <h1 class="title">{{pageInfo.title}}</h1>
                             <p class="author">作者 | <span style="color: #ea5a49;">{{pageInfo.author}}</span></p>
                             <p class="last">最新章节： <br> {{pageInfo.theLast}}</p>
-                            <md-button class="button button-assertive button-block button-small" @click.native="readNovel(pageInfo.topList[0].link)">开始阅读</md-button>
+                            <md-button class="button button-assertive button-block button-small"
+                                       v-if="pageInfo.hasRead"
+                                       @click.native="readNovel(pageInfo.hasRead)">
+                                继续阅读
+                            </md-button>
+                            <md-button class="button button-assertive button-block button-small"
+                                       v-else
+                                       @click.native="readNovel(pageInfo.topList[0].link)">
+                                开始阅读
+                            </md-button>
                         </div>
                     </div>
                 </div>
@@ -83,7 +92,11 @@
         },
         methods: {
             goBack() {
-                this.$router.push(this.$route.query.from);
+                if( this.$route.query.from ) {
+                    this.$router.push(this.$route.query.from);
+                } else {
+                    this.$router.push('/novel');
+                }
             },
             readNovel(link) {
                 this.$router.push({
@@ -108,6 +121,7 @@
             axios.get('/worm/getNovelList', {params: {id: this.$route.query.id}}).then(res => {
                 $loading.hide();
                 this.pageInfo = res.data;
+                console.log(this.pageInfo);
             });
         }
     }
