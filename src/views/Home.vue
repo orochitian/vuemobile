@@ -6,7 +6,7 @@
                 <button class="button button-icon ion-navicon" slot="right"></button>
             </von-header>
 
-            <a @click="$router.forward('/novel')">novel</a>
+            <iframe width="100%" height="93%" src="//player.bilibili.com/player.html?aid=26398471&cid=45360581&page=1"></iframe>
         </div>
     </div>
 </template>

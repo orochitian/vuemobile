@@ -4,7 +4,7 @@
             <von-header theme="assertive" style="position: fixed; z-index: 9999;">
                 <button class="button button-icon ion-ios-arrow-back" slot="left" @click="$router.push($route.query.from); title = ''"></button>
                 <span slot="title">小说</span>
-                <button class="button button-icon" slot="right" @click="$router.push('/novel/history')">历史记录</button>
+                <button class="button button-icon" slot="right" @click="toNovelHistory">历史记录</button>
             </von-header>
 
             <search v-model.trim="title" placeholder="小说名/作者" :on-search="onSearch" :on-cancel="onCancel" cancelText="取消"></search>
@@ -70,6 +70,12 @@
             }
         },
         methods: {
+            toNovelHistory() {
+                $router.push({
+                    path: '/novel/history',
+                    query: {from: this.$route.fullPath}
+                });
+            },
             loadPage() {
                 $loading.show('加载中...');
                 axios.get('/worm/searchNovel', {params: {search: {title: this.$route.query.title, pageNum: this.$route.query.pageNum}}}).then(res => {

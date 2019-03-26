@@ -3,16 +3,16 @@
         <div class="page-content">
             <von-header theme="assertive" style="position: fixed; z-index: 9999;">
                 <button class="button button-icon ion-ios-arrow-back" slot="left" @click="goBack"></button>
-                <span slot="title">历史记录</span>
+                <span slot="title">收藏的小说</span>
             </von-header>
-            <div class="item item-divider" style="">历史记录：</div>
+            <div class="item item-divider" style="">收藏的小说：</div>
 
             <div class="item"
-                 v-for="(li, i, k) in historyList"
+                 v-for="(li, i, k) in collectList"
                  :key="k"
-                 @click="readOnline(li)">
+                 @click="toNovelMenu(li.novelId)">
                 <i style="font-size: 12px;">{{i+1}}、</i>
-                <span style="font-size: 12px;">{{li.lastChapter.replace(' ', '： ')}}</span>
+                <span style="font-size: 12px;">{{li.novelName}}</span>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
     export default {
         data() {
             return {
-                historyList: []
+                collectList: []
             }
         },
         methods: {
@@ -33,20 +33,19 @@
                     this.$router.push('/user');
                 }
             },
-            readOnline(list) {
+            toNovelMenu(id) {
                 this.$router.push({
-                    path: '/novel/detail',
+                    path: '/novel/menu',
                     query: {
-                        link: list.lastChapterLink,
-                        id: list.id,
+                        id,
                         from: this.$route.fullPath
                     }
                 });
             },
             loadPage() {
                 $loading.show('加载中...');
-                axios.get('/user/detail').then(res => {
-                    this.historyList = res.data.novelHistory;
+                axios.get('/novel/getAllCollect').then(res => {
+                    this.collectList = res.data;
                     $loading.hide();
                 });
             }

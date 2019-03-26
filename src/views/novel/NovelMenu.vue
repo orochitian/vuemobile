@@ -19,14 +19,26 @@
                             <h1 class="title">{{pageInfo.title}}</h1>
                             <p class="author">作者 | <span style="color: #ea5a49;">{{pageInfo.author}}</span></p>
                             <p class="last">最新章节： <br> {{pageInfo.theLast}}</p>
-                            <md-button class="button button-assertive button-block button-small"
+                            <md-button class="button button-royal button-block button-small" v-if="collect"
+                                       @click.native="cancelCollect">
+                                <i class="icon ion-heart-broken" style="margin-right: 5px;"></i>
+                                取消收藏
+                            </md-button>
+                            <md-button class="button button-assertive button-block button-small" v-else
+                                       @click.native="collectBook">
+                                <i class="icon ion-heart" style="margin-right: 5px;"></i>
+                                收藏本书
+                            </md-button>
+                            <md-button class="button button-positive button-block button-small"
                                        v-if="pageInfo.hasRead"
                                        @click.native="readNovel(pageInfo.hasRead)">
+                                <i class="icon ion-ios-book" style="margin-right: 5px;"></i>
                                 继续阅读
                             </md-button>
-                            <md-button class="button button-assertive button-block button-small"
+                            <md-button class="button button-positive button-block button-small"
                                        v-else
                                        @click.native="readNovel(pageInfo.topList[0].link)">
+                                <i class="icon ion-ios-book" style="margin-right: 5px;"></i>
                                 开始阅读
                             </md-button>
                         </div>
@@ -68,6 +80,7 @@
                     topList: [],
                     lastList: []
                 },
+                collect: false,
                 hiddenList: []
             }
         },
@@ -98,6 +111,18 @@
                     this.$router.push('/novel');
                 }
             },
+            collectBook() {
+                var novelName = this.pageInfo.title;
+                var novelId = this.$route.query.id;
+                axios.get('/novel/addCollect', {params: {novelId, novelName}}).then(res => {
+                    this.collect = res.data;
+                });
+            },
+            cancelCollect() {
+                axios.get('/novel/removeCollect', {params: {novelId: this.$route.query.id}}).then(res => {
+                    this.collect = res.data;
+                });
+            },
             readNovel(link) {
                 this.$router.push({
                     path: '/novel/detail',
@@ -121,7 +146,9 @@
             axios.get('/worm/getNovelList', {params: {id: this.$route.query.id}}).then(res => {
                 $loading.hide();
                 this.pageInfo = res.data;
-                console.log(this.pageInfo);
+            });
+            axios.get('/novel/getCollect', {params: {novelId: this.$route.query.id}}).then(res => {
+                this.collect = res.data;
             });
         }
     }
@@ -132,7 +159,7 @@
         padding: 6px;
         img{
             max-width: 100%;
-            max-height: 160px;
+            max-height: 200px;
         }
     }
     .novel-info{

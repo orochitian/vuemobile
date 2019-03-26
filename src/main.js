@@ -1,9 +1,8 @@
 import routes from './router'
 
-axios.defaults.baseURL = 'http://localhost';
+axios.defaults.baseURL = 'http://132.232.119.153';
+// axios.defaults.baseURL = 'http://localhost';
 axios.defaults.withCredentials = true;
-
-
 
 document.addEventListener("plusready", function () {
     var main = plus.webview.currentWebview();

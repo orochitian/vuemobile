@@ -1,16 +1,31 @@
 <template>
     <div class="page">
         <div class="page-content padding-top">
-
-            <!-- type: text, password, email, tel -->
-            <div class="item item-divider">
-                用户登录: {{username}}
+            <von-header theme="assertive">
+                <span slot="title">用户登录</span>
+            </von-header>
+            <div style="text-align: center; padding: 30px 0;">
+                <img src="/logo.png" alt="" style="border-radius: 50%;">
             </div>
-            <von-input type="text" v-model="username" placeholder="用户名" label="用户名"></von-input>
-            <von-input type="password" v-model="password" placeholder="密码" label="密码" style="margin-bottom: 5px;"></von-input>
+            <div class="von-input-wrapper login-input">
+                <label class="item item-borderless item-input von-input">
+                    <div class="hairline-top"></div>
+                    <span class="input-label">用户名：</span> <input type="text" v-model="username" placeholder="请输入您的用户名"> <!----> <!----> <!---->
+                    <div class="hairline-bottom"></div>
+                </label>
+                <span class="input-clear active"></span>
+            </div>
+            <div class="von-input-wrapper login-input">
+                <label class="item item-borderless item-input von-input">
+                    <div class="hairline-top"></div>
+                    <span class="input-label">密码：</span> <input type="password" v-model="password" placeholder="请输入您的密码"> <!----> <!----> <!---->
+                    <div class="hairline-bottom"></div>
+                </label>
+                <span class="input-clear active"></span>
+            </div>
 
             <div class="padding">
-                <button class="button button-positive button-block" @click="loginHandle">确认</button>
+                <button class="button button-positive button-block" @click="loginHandle">登录</button>
             </div>
 
         </div>
@@ -61,6 +76,29 @@
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+    .page{
+        .page-content{
+            background-color: #2d3a4b;
+        }
+    }
+    .item.item-divider{
+        background: none;
+    }
+    .login-input{
+        border: 1px solid hsla(0,0%,100%,.1);
+        background: rgba(0,0,0,.1);
+        border-radius: 5px;
+        margin: 20px 10px;
+        label{
+            background: none;
+            input{
+                background: none;
+                color: #eee;
+            }
+        }
+        .input-label{
+            color: #999;
+        }
+    }
 </style>
