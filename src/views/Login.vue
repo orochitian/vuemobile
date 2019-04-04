@@ -10,18 +10,18 @@
             <div class="von-input-wrapper login-input">
                 <label class="item item-borderless item-input von-input">
                     <div class="hairline-top"></div>
-                    <span class="input-label">用户名：</span> <input type="text" v-model="username" placeholder="请输入您的用户名"> <!----> <!----> <!---->
+                    <span class="input-label">用户名：</span> <input type="text" v-model="username" placeholder="请输入您的用户名">
                     <div class="hairline-bottom"></div>
                 </label>
-                <span class="input-clear active"></span>
+                <span class="input-clear active" @click="username = ''"></span>
             </div>
             <div class="von-input-wrapper login-input">
                 <label class="item item-borderless item-input von-input">
                     <div class="hairline-top"></div>
-                    <span class="input-label">密码：</span> <input type="password" v-model="password" placeholder="请输入您的密码"> <!----> <!----> <!---->
+                    <span class="input-label">密码：</span> <input type="password" v-model="password" placeholder="请输入您的密码">
                     <div class="hairline-bottom"></div>
                 </label>
-                <span class="input-clear active"></span>
+                <span class="input-clear active" @click="password = ''"></span>
             </div>
 
             <div class="padding">

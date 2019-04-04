@@ -8,6 +8,7 @@
     },
     "dependencies": {
         "axios": "^0.18.0",
+        "hls.js": "^0.12.4",
         "vonic": "^2.0.0-rc.1",
         "vue": "^2.6.6",
         "vue-router": "^3.0.1"
