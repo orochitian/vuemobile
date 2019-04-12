@@ -84,25 +84,6 @@
                 hiddenList: []
             }
         },
-        computed: {
-            entrances() {
-                return [
-                    `
-                    <div class="novel-img">
-                        <img src="${this.pageInfo.img}" alt="">
-                    </div>
-                    `,
-                    `
-                    <div class="novel-info">
-                        <h1 class="title">${this.pageInfo.title}</h1>
-                        <p class="author">作者 | <span style="color: #ea5a49;">${this.pageInfo.author}</span></p>
-                        <p class="last">最新章节： <br> ${this.pageInfo.theLast}</p>
-                        <div @click.native="readNovel" class="md-button button button-assertive button-small button-block">开始阅读</div>
-                    </div>
-                    `
-                ]
-            }
-        },
         methods: {
             goBack() {
                 if( this.$route.query.from ) {
