@@ -22,9 +22,18 @@
 
             <div class="item item-divider novel-desc-title">内容简介：</div>
             <p class="novel-desc">{{pageInfo.desc}}</p>
-            <list>
-
-            </list>
+            <div>
+                <md-button class="button button-royal button-block button-small" v-if="collect"
+                           @click.native="cancelCollect">
+                    <i class="icon ion-heart-broken" style="margin-right: 5px;"></i>
+                    取消收藏
+                </md-button>
+                <md-button class="button button-assertive button-block button-small" v-else
+                           @click.native="collectBook">
+                    <i class="icon ion-heart" style="margin-right: 5px;"></i>
+                    收藏电影
+                </md-button>
+            </div>
             <div class="top-list">
                 <list>
                     <item>播放列表：</item>
@@ -47,7 +56,8 @@
                 pageInfo: {
                     title: '',
                     info: {}
-                }
+                },
+                collect: false,
             }
         },
         methods: {
@@ -61,7 +71,19 @@
             readNovel(link) {
                 this.$router.push({
                     path: '/movie/detail',
-                    query: {link, title: this.pageInfo.title}
+                    query: {link, id: this.$route.query.link}
+                });
+            },
+            collectBook() {
+                var title = this.pageInfo.title;
+                var link = this.$route.query.link;
+                axios.get('/video/addCollect', {params: {title, link}}).then(res => {
+                    this.collect = res.data;
+                });
+            },
+            cancelCollect() {
+                axios.get('/video/removeCollect', {params: {link: this.$route.query.link}}).then(res => {
+                    this.collect = res.data;
                 });
             }
         },
@@ -70,6 +92,9 @@
             axios.get('/worm/getVideoList', {params: {link: this.$route.query.link}}).then(res => {
                 this.pageInfo = res.data;
                 $loading.hide();
+            });
+            axios.get('/video/getCollect', {params: {link: this.$route.query.link}}).then(res => {
+                this.collect = res.data;
             });
         }
     }

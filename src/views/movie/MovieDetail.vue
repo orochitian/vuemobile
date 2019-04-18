@@ -3,26 +3,29 @@
         <div class="page-content">
             <von-header theme="assertive" style="position: fixed; z-index: 9999;">
                 <button class="button button-icon ion-ios-arrow-back" slot="left" @click="goBack"></button>
-                <span slot="title" class="header-title">{{$route.query.title}}</span>
+                <span slot="title" class="header-title">{{title}}</span>
             </von-header>
 
             <div class="content">
-                <video src="" id="video" controls></video>
+                <!--<video src="" id="video" controls></video>-->
+                <iframe id="iframe" allowfullscreen="true" :src="iframeSrc" frameborder="0"></iframe>
                 <div id="controls">
-                    <button class="button button-small button-positive" @click="videoControl('prev')">快退10秒</button>
-                    <button class="button button-small button-assertive" @click="videoControl('play')">播放</button>
-                    <button class="button button-small button-royal" @click="videoControl('pause')">暂停</button>
-                    <button class="button button-small button-positive" @click="videoControl('next')">快进10秒</button>
-                    <button class="button button-small button-positive" @click="videoControl('fullscreen')">快进10秒</button>
+                    <button v-if="prev" class="button button-small button-positive" @click="videoControl('prev')">上一集</button>
+                    <button v-else class="button button-small button-royal">上一集</button>
+                    <button class="button button-small button-positive" @click="videoControl('fullscreen')">
+                        <span v-if="isFullScreen">竖屏</span>
+                        <span v-else>横屏</span>
+                    </button>
+                    <button v-if="next" class="button button-small button-positive" @click="videoControl('next')">下一集</button>
+                    <button v-else class="button button-small button-royal">下一集</button>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
 
 <script>
-    import hls from 'hls.js';
+    // import hls from 'hls.js';
     export default {
         data() {
             return {
@@ -30,55 +33,59 @@
                     showMenuButton: true,
                     hideNavbar: true
                 },
-                videoSrc: '',
-                player: new hls(),
+                title: '',
+                // videoSrc: '',
+                iframeSrc: '',
+                // player: new hls(),
+                isFullScreen: false,
+                prev: '',
+                next: ''
             }
         },
         methods: {
             goBack() {
                 this.$router.go(-1);
             },
+            loadPage(link) {
+                $loading.show('加载中...');
+                axios.get('/worm/getVideoDetail', {params: {link, id: this.$route.query.id}}).then(res => {
+                    this.iframeSrc = res.data.link;
+                    this.title = res.data.title;
+                    this.prev = res.data.prev;
+                    this.next = res.data.next;
+                    $loading.hide();
+                });
+            },
             videoControl(type) {
-                var video = document.getElementById('video');
+                var iframe = document.getElementById('iframe');
                 switch (type) {
-                    case 'prev':
-                        video.currentTime -= 10;
-                        break
-                    case 'next':
-                        video.currentTime += 10;
-                        break
-                    case 'play':
-                        video.play();
-                        break
-                    case 'pause':
-                        video.pause();
-                        break
                     case 'fullscreen':
                         //  portrait: 竖屏, landscape: 横屏
-                        plus.screen.lockOrientation("landscape");
-                        video.requestFullscreen();
+                        if( this.isFullScreen ) {
+                            plus.screen.lockOrientation("portrait");
+                        } else {
+                            plus.screen.lockOrientation("landscape");
+                            iframe.requestFullscreen();
+                        }
+                        this.isFullScreen = !this.isFullScreen;
                         break
+                    case 'prev':
+                        this.loadPage(this.prev);
+                        break
+                    case 'next':
+                        this.loadPage(this.next);
+                        break
+
                 }
             }
         },
         mounted() {
-            $loading.show('加载中...');
-            var video = document.getElementById('video');
-            axios.get('/worm/getVideoDetail', {params: {link: this.$route.query.link}}).then(res => {
-                this.videoSrc = res.data;
-                $loading.hide();
-                if(hls.isSupported()) {
-                    this.player.loadSource(this.videoSrc);
-                    this.player.attachMedia(video);
-                }
-            });
-            video.onresize = function () {
-                console.log(1);
-            }
+            // var video = document.getElementById('video');
+            this.loadPage(this.$route.query.link);
         },
         beforeDestroy() {
             // this.player.detachMedia();
-            this.player.destroy();
+            // this.player.destroy();
         }
     }
 </script>
@@ -92,9 +99,9 @@
     .content{
         position: relative;
     }
-    #video,#controls{
+    #video,#controls,#iframe{
         width: 100%;
-        height: 90%;
+        height: 100%;
         position: absolute;
         left: 0;
         top: 0;

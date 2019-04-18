@@ -17,6 +17,8 @@ import NovelCollect from './views/novel/NovelCollect';
 import SearchMovie from './views/movie/SearchMovie';
 import MovieMenu from './views/movie/MovieMenu';
 import MovieDetail from './views/movie/MovieDetail';
+import MovieCollect from './views/movie/MovieCollect';
+import MovieHistory from './views/movie/MovieHistory';
 //  电影结束
 
 //  登录
@@ -47,6 +49,8 @@ export default [
     { path: '/movie', component: SearchMovie },
     { path: '/movie/menu', component: MovieMenu },
     { path: '/movie/detail', component: MovieDetail },
+    { path: '/video/collect', component: MovieCollect },
+    { path: '/video/history', component: MovieHistory },
     { path: '/login', component: Login },
 
 ]

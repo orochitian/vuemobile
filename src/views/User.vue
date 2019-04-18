@@ -20,12 +20,12 @@
             <br>
             <div class="item item-divider novel-desc-title">电影：</div>
 
-            <item class="item-icon-left">
+            <item class="item-icon-left" @click.native="toVideoHistory">
                 <i class="icon ion-android-bookmark" style="color: #f17c67;"></i>
                 看过的电影
             </item>
             <br>
-            <item class="item-icon-left">
+            <item class="item-icon-left" @click.native="toVideoCollect">
                 <i class="icon ion-heart" style="color: #f17c67;"></i>
                 收藏的电影
             </item>
@@ -91,6 +91,18 @@
             toNovelCollect() {
                 $router.push({
                     path: '/novel/collect',
+                    query: {from: this.$route.fullPath}
+                });
+            },
+            toVideoHistory() {
+                $router.push({
+                    path: '/video/history',
+                    query: {from: this.$route.fullPath}
+                });
+            },
+            toVideoCollect() {
+                $router.push({
+                    path: '/video/collect',
                     query: {from: this.$route.fullPath}
                 });
             },
